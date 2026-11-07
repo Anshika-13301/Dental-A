@@ -29,7 +29,47 @@ The user interface follows modern healthcare software standards (Stripe, Linear,
 
 ---
 
-## 3. Tech Stack
+## 3. Visual Product Tour (Live Screenshots)
+
+### 3.1 Clinical SaaS Landing Page
+![Landing Page](docs/screenshots/01-landing-page.png)
+
+### 3.2 Interactive Hygiene Chair Production & ROI Calculator
+![ROI Calculator](docs/screenshots/02-roi-calculator.png)
+
+### 3.3 Clinical Portal Sign In (Two-Step OTP Authentication)
+![Login Screen](docs/screenshots/03-login-screen.png)
+
+### 3.4 6-Digit Email OTP Verification Screen
+![Verify OTP](docs/screenshots/04-verify-otp.png)
+
+### 3.5 Clinical Operations Dashboard
+![Dashboard Overview](docs/screenshots/05-dashboard-overview.png)
+
+### 3.6 Overdue Hygiene Patient Registry
+![Patient Registry](docs/screenshots/06-patient-registry.png)
+
+### 3.7 Confirmed Hygiene Chairs Schedule & $20 Commission Tracking
+![Hygiene Chairs](docs/screenshots/07-hygiene-chairs.png)
+
+### 3.8 Split-Screen Two-Way SMS Patient Re-Activation Center
+![SMS Inbox](docs/screenshots/08-sms-inbox.png)
+
+### 3.9 Recall Cadence Rules & Automated SMS Triggers
+![Recall Cadence](docs/screenshots/09-recall-cadence.png)
+
+### 3.10 Practice Billing & Statement Audit ($600 Base + $20/Chair)
+![Billing Audit](docs/screenshots/10-billing-audit.png)
+
+### 3.11 Practice Profile & AI Brain Tuning
+![Settings](docs/screenshots/11-settings-tuning.png)
+
+### 3.12 Super Admin Multi-Tenant Practice Portfolio
+![Super Admin](docs/screenshots/12-admin-portfolio.png)
+
+---
+
+## 4. Tech Stack
 
 ### Frontend (Next.js App Router):
 - **Framework:** Next.js 14+ (App Router, Server & Client Components)
