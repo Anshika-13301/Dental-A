@@ -62,7 +62,7 @@ const allowedOrigins = [
   config.CLIENT_URL,
   'http://localhost:3000',
   'http://127.0.0.1:3000',
-  'https://dentagent-ai.vercel.app'
+  'https://dental-a.vercel.app'
 ];
 
 app.use(cors({
