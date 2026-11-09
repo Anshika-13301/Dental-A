@@ -29,7 +29,7 @@ const server = http.createServer(app);
 // Initialize Socket.io
 const io = new Server(server, {
   cors: {
-    origin: [config.CLIENT_URL, 'http://localhost:3000', 'https://dentagent-ai.vercel.app'],
+    origin: [config.CLIENT_URL, 'http://localhost:3000', 'https://dental-a.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
   }
