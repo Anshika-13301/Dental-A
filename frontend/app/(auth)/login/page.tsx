@@ -8,9 +8,9 @@ import axios from 'axios';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'patient' | 'admin'>('patient');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [activeTab, setActiveTab] = useState<'patient' | 'admin'>('admin');
+  const [email, setEmail] = useState('anshikashukla1336@gmail.com');
+  const [password, setPassword] = useState('mail@11');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -20,29 +20,27 @@ export default function LoginPage() {
     setErrorMessage('');
 
     try {
-      const res = await axios.post('https://dental-a.onrender.com/login', {
+      const res = await axios.post('https://dental-a.onrender.com/api/auth/login', {
         email,
         password,
       });
 
-      const { token, role, user } = res.data;
+      const token = res.data.token || res.data.accessToken;
+      const role = res.data.role || res.data.user?.role || activeTab;
 
-      // Local storage auth details save
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', role || activeTab);
-      if (user) {
-        localStorage.setItem('userData', JSON.stringify(user));
-      }
+      // Direct Auth state save
+      localStorage.setItem('dentagent_token', token);
+      localStorage.setItem('dentagent_role', role);
 
-      // Direct Role-based Route Redirection (No OTP)
-      if (role === 'admin' || activeTab === 'admin') {
-        router.push('/admin');
+      // Redirect without OTP check
+      if (role === 'admin' || role === 'SUPER_ADMIN' || role === 'PRACTICE_ADMIN') {
+        router.push('/dashboard/admin');
       } else {
-        router.push('/patient');
+        router.push('/dashboard/patients');
       }
     } catch (err: any) {
       setErrorMessage(
-        err.response?.data?.message || 'Login failed. Please verify your credentials.'
+        err.response?.data?.message || 'Login failed. Invalid credentials or user not registered.'
       );
     } finally {
       setIsLoading(false);
@@ -60,15 +58,11 @@ export default function LoginPage() {
         </Link>
 
         <h2 className="text-center text-xl font-bold tracking-tight text-slate-900">
-          Portal Account Sign In
+          Clinical Portal Sign In
         </h2>
-        <p className="mt-1 text-center text-xs text-slate-500 font-mono">
-          Select portal type to access your portal
-        </p>
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md">
-        {/* Role Selection Tabs */}
         <div className="flex bg-slate-200 p-1 rounded-xl mb-4">
           <button
             type="button"
@@ -104,7 +98,7 @@ export default function LoginPage() {
           </button>
         </div>
 
-        <div className="bg-white py-8 px-6 border border-zinc-200 rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] sm:px-8">
+        <div className="bg-white py-8 px-6 border border-zinc-200 rounded-xl shadow-sm sm:px-8">
           {errorMessage && (
             <div className="mb-4 p-3 rounded-md bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
               <ShieldAlert className="w-4 h-4 flex-shrink-0" />
@@ -115,7 +109,7 @@ export default function LoginPage() {
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 font-mono uppercase tracking-wider mb-1">
-                {activeTab === 'admin' ? 'Admin Email Address' : 'User Email Address'}
+                Email Address
               </label>
               <div className="relative">
                 <input
@@ -123,10 +117,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={
-                    activeTab === 'admin' ? 'anshikashukla1336@gmail.com' : 'patient@example.com'
-                  }
-                  className="w-full px-3.5 py-2 text-sm border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 text-slate-900 placeholder:text-zinc-400"
+                  className="w-full px-3.5 py-2 text-sm border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 text-slate-900"
                 />
                 <Mail className="w-4 h-4 text-zinc-400 absolute right-3.5 top-3 pointer-events-none" />
               </div>
@@ -142,8 +133,7 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••••••"
-                  className="w-full px-3.5 py-2 text-sm border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-900 text-slate-900 placeholder:text-zinc-400"
+                  className="w-full px-3.5 py-2 text-sm border border-zinc-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900/10 text-slate-900"
                 />
                 <Lock className="w-4 h-4 text-zinc-400 absolute right-3.5 top-3 pointer-events-none" />
               </div>
@@ -158,19 +148,10 @@ export default function LoginPage() {
                   : 'bg-[#0F172A] hover:bg-slate-800'
               }`}
             >
-              {isLoading ? 'Authenticating...' : `Login to ${activeTab === 'admin' ? 'Admin Panel' : 'User Panel'}`}
+              {isLoading ? 'Authenticating...' : `Sign In to ${activeTab === 'admin' ? 'Admin Panel' : 'User Panel'}`}
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </form>
-
-          {activeTab === 'patient' && (
-            <div className="mt-6 text-center text-xs text-slate-600">
-              Don't have a user account?{' '}
-              <Link href="/register" className="font-semibold text-sky-700 hover:underline">
-                Create Account
-              </Link>
-            </div>
-          )}
         </div>
       </div>
     </div>
