@@ -20,7 +20,7 @@ export default function LoginPage() {
     setErrorMessage('');
 
     try {
-      const res = await axios.post('https://dental-a.onrender.com/api/auth/login', {
+      const res = await axios.post('https://dental-a.onrender.com/login', {
         email,
         password,
       });
